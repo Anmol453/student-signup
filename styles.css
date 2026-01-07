@@ -114,15 +114,18 @@ header h1 {
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
-.submit-btn:hover {
+.submit-btn:hover:not(:disabled) {
     background: #0056b3;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
 }
 
-.submit-btn:active {
+.submit-btn:active:not(:disabled) {
     background: #004085;
+    transform: translateY(0);
 }
 
 .success-message {
@@ -177,49 +180,18 @@ header h1 {
     opacity: 0.6;
     cursor: not-allowed;
     background: #6c757d;
+    transform: none;
+    box-shadow: none;
+    transition: all 0.3s ease;
 }
 
 .submit-btn:disabled:hover {
     background: #6c757d;
+    transform: none;
+    box-shadow: none;
 }
 
 /* Success Popup */
-.popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    opacity: 1;
-    transition: opacity 0.3s ease;
-}
-
-.popup-overlay.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.popup-content {
-    background: white;
-    padding: 40px;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    max-width: 400px;
-    width: 90%;
-    transform: scale(1);
-    transition: transform 0.3s ease;
-}
-
-.popup-overlay.hidden .popup-content {
-    transform: scale(0.9);
-}
-
 .popup-icon {
     margin-bottom: 20px;
 }
@@ -236,4 +208,74 @@ header h1 {
     font-size: 1.1rem;
     margin: 0;
     line-height: 1.5;
+}
+
+/* Animations */
+
+/* 1. Success message fade-in animation */
+.success-message {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.4s ease;
+}
+
+.success-message.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.success-message.fade-out {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+/* 2. Form shake animation for validation errors */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.form-shake {
+    animation: shake 0.4s ease-in-out;
+}
+
+/* 3. Student counter number pop animation */
+@keyframes numberPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+.counter-pop {
+    animation: numberPop 0.5s ease-out;
+}
+
+/* 4. Enhanced popup animations - SIMPLIFIED FOR DEBUGGING */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.popup-overlay.hidden {
+    display: none;
+}
+
+.popup-content {
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+    width: 90%;
+    border: 2px solid #007bff;
 }

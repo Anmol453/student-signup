@@ -1,7 +1,6 @@
 /**
- * Student Registration Application
  * Handles form submission, validation, and student data storage
- * Features: Age validation (10+), phone number validation, real-time feedback
+ * Features: Age validation (15+), phone number validation, real-time feedback
  */
 
 class StudentRegistration {
@@ -15,15 +14,16 @@ class StudentRegistration {
         this.successMessage = document.getElementById('successMessage');
         this.successPopup = document.getElementById('successPopup');
         
+        // Debug: Check if popup element exists
+        console.log('Success popup element:', this.successPopup);
+        
         // Initialize the application
         this.initializeEventListeners();
         this.updateStudentCount();
     }
 
-    /**
-     * Set up all event listeners for form interactions
-     * Includes form submission, real-time phone validation, and date validation
-     */
+    // Set up all event listeners for form interactions //
+    
     initializeEventListeners() {
         // Handle form submission with validation
         this.form.addEventListener('submit', (event) => {
@@ -38,15 +38,25 @@ class StudentRegistration {
         // Date of birth validation for age requirements
         const dateInput = document.getElementById('dateOfBirth');
         dateInput.addEventListener('change', this.validateDateOfBirth.bind(this));
+
+        // Auto-capitalize name fields as user types
+        const nameFields = ['firstName', 'middleName', 'lastName'];
+        nameFields.forEach(fieldId => {
+            const field = document.getElementById(fieldId);
+            field.addEventListener('input', this.capitalizeNameField.bind(this));
+            field.addEventListener('blur', this.capitalizeNameField.bind(this));
+        });
     }
 
-    /**
-     * Main form submission handler
-     * Validates form, collects data, registers student, and shows success feedback
-     */
+    // Main form submission handler//
     handleFormSubmission() {
         // Only proceed if all validation passes
         if (!this.validateForm()) {
+            // Add shake animation to form on validation failure
+            this.form.classList.add('form-shake');
+            setTimeout(() => {
+                this.form.classList.remove('form-shake');
+            }, 400);
             return;
         }
 
@@ -61,8 +71,7 @@ class StudentRegistration {
     }
 
     /**
-     * Comprehensive form validation
-     * Checks required fields, phone number format, and age requirements
+     * Comprehensive for validation
      * @returns {boolean} True if all validation passes, false otherwise
      */
     validateForm() {
@@ -111,7 +120,6 @@ class StudentRegistration {
 
     /**
      * Collect all form data into a structured student object
-     * Includes auto-generated ID and registration timestamp
      * @returns {Object} Complete student data object
      */
     collectFormData() {
@@ -165,21 +173,18 @@ class StudentRegistration {
         }
         
         // Array of invalid phone number patterns
-        const invalidPatterns = [
-            /^0{10}$/, // All zeros: 0000000000
-            /^1{10}$/, // All ones: 1111111111
-            /^2{10}$/, // All twos: 2222222222
-            /^3{10}$/, // All threes: 3333333333
-            /^4{10}$/, // All fours: 4444444444
-            /^5{10}$/, // All fives: 5555555555
-            /^6{10}$/, // All sixes: 6666666666
-            /^7{10}$/, // All sevens: 7777777777
-            /^8{10}$/, // All eights: 8888888888
-            /^9{10}$/, // All nines: 9999999999
-            /^(\d)\1{9}$/, // Any single digit repeated 10 times
-            /^1234567890$/, // Sequential numbers
-            /^0987654321$/, // Reverse sequential
-            /^0123456789$/, // Sequential starting with 0
+       const invalidPatterns = [
+              /^(\d)\1{9}$/,              // All digits same
+              /^1234567890$/,             // Sequential
+              /^0987654321$/,             // Reverse sequential
+              /^0123456789$/,             // Sequential from 0
+              /^(\d{2})\1{4}$/,            // Repeating pairs
+              /^(\d)\1{6,}/,               // Too many repeated digits
+              /^(\d)(\d)(?:\1\2){4}$/,     // Alternating digits
+              /^9999999999$/,              // Common placeholder
+              /^1231231234$/,              // Repeating blocks
+              /^[0-5]\d{9}$/               // Invalid Indian mobile start
+  
         ];
         
         // Check against all invalid patterns
@@ -216,7 +221,7 @@ class StudentRegistration {
             return false;
         }
         
-        // Must be at least 15 years old
+        // Must be at least 10 years old
         const age = this.calculateAge(date);
         return age >= 10;
     }
@@ -274,7 +279,7 @@ class StudentRegistration {
             
             // Show appropriate error message
             if (!this.isValidDateOfBirth(dateInput.value)) {
-                if (age < 15) {
+                if (age < 10) {
                     this.showFieldError(dateInput, 'Student must be at least 10 years old');
                 } else {
                     this.showFieldError(dateInput, 'Please enter a valid date of birth');
@@ -283,6 +288,51 @@ class StudentRegistration {
                 this.clearFieldError(dateInput);
             }
         }
+    }
+
+    /**
+     * Auto-capitalize name fields (First letter uppercase, rest lowercase)
+     * Handles cases like: john → John, DOE → Doe, mCdONALD → Mcdonald
+     * @param {Event} event Input event from name field
+     */
+    capitalizeNameField(event) {
+        const field = event.target;
+        const cursorPosition = field.selectionStart;
+        const originalValue = field.value;
+        
+        // Capitalize first letter, lowercase the rest
+        const capitalizedValue = this.capitalizeProperName(originalValue);
+        
+        // Only update if the value actually changed to avoid cursor jumping
+        if (originalValue !== capitalizedValue) {
+            field.value = capitalizedValue;
+            
+            // Restore cursor position after formatting
+            const newCursorPosition = Math.min(cursorPosition, capitalizedValue.length);
+            field.setSelectionRange(newCursorPosition, newCursorPosition);
+        }
+    }
+
+    /**
+     * Properly capitalize a name string
+     * Examples: john → John, DOE → Doe, mary-jane → Mary-jane, o'connor → O'connor
+     * @param {string} name Name string to capitalize
+     * @returns {string} Properly capitalized name
+     */
+    capitalizeProperName(name) {
+        if (!name || typeof name !== 'string') {
+            return '';
+        }
+        
+        // Trim whitespace and convert to lowercase
+        const trimmedName = name.trim().toLowerCase();
+        
+        if (trimmedName.length === 0) {
+            return '';
+        }
+        
+        // Capitalize first letter and keep rest lowercase
+        return trimmedName.charAt(0).toUpperCase() + trimmedName.slice(1);
     }
 
     /**
@@ -329,12 +379,24 @@ class StudentRegistration {
         this.form.style.pointerEvents = 'none';
         this.form.style.opacity = '0.7';
         
-        // Show popup modal
-        this.successPopup.classList.remove('hidden');
+        console.log('Showing success popup...'); // Debug log
+        console.log('Popup element:', this.successPopup); // Debug log
+        
+        // Show popup modal - SIMPLE VERSION
+        if (this.successPopup) {
+            this.successPopup.classList.remove('hidden');
+            console.log('Popup should now be visible'); // Debug log
+            console.log('Popup classes after show:', this.successPopup.className); // Debug log
+        } else {
+            console.error('Success popup element not found!');
+        }
         
         // Auto-hide after 3 seconds and re-enable form
         setTimeout(() => {
-            this.successPopup.classList.add('hidden');
+            console.log('Hiding popup...'); // Debug log
+            if (this.successPopup) {
+                this.successPopup.classList.add('hidden');
+            }
             this.form.style.pointerEvents = 'auto';
             this.form.style.opacity = '1';
         }, 3000);
@@ -347,9 +409,21 @@ class StudentRegistration {
     showSuccessMessage() {
         this.successMessage.classList.remove('hidden');
         
+        // Trigger fade-in animation
         setTimeout(() => {
-            this.successMessage.classList.add('hidden');
-        }, 3000);
+            this.successMessage.classList.add('show');
+        }, 10);
+        
+        // Start fade-out after 2.5 seconds, then hide
+        setTimeout(() => {
+            this.successMessage.classList.add('fade-out');
+            this.successMessage.classList.remove('show');
+            
+            setTimeout(() => {
+                this.successMessage.classList.add('hidden');
+                this.successMessage.classList.remove('fade-out');
+            }, 400);
+        }, 2500);
     }
 
     /**
@@ -376,7 +450,18 @@ class StudentRegistration {
      * Shows current number of registered students
      */
     updateStudentCount() {
-        this.studentCountElement.textContent = this.students.length;
+        const previousCount = parseInt(this.studentCountElement.textContent) || 0;
+        const newCount = this.students.length;
+        
+        this.studentCountElement.textContent = newCount;
+        
+        // Add pop animation only when count increases
+        if (newCount > previousCount) {
+            this.studentCountElement.classList.add('counter-pop');
+            setTimeout(() => {
+                this.studentCountElement.classList.remove('counter-pop');
+            }, 500);
+        }
     }
 
     /**

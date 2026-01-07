@@ -5,7 +5,7 @@ A simple, responsive web form for student course registration with validation an
 ## Features
 
 - **Student Registration**: Collect name, date of birth, phone, and course selection
-- **Age Validation**: Students must be at least 15 years old
+- **Age Validation**: Students must be at least 10 years old
 - **Phone Validation**: Rejects invalid patterns (all zeros, sequential numbers, etc.)
 - **Real-time Feedback**: Instant validation as users type
 - **Success Popup**: 3-second confirmation modal after registration
@@ -32,4 +32,11 @@ A simple, responsive web form for student course registration with validation an
 - **Age Requirement**: Minimum 10 years old
 - **Phone Format**: 10 digits, realistic number patterns only
 - **Date Range**: Valid birth dates (not future, not over 100 years ago)
+
+## Data Storage
+
+Students are stored in a JavaScript array within the application. Each student receives:
+- Unique ID (STU + timestamp + random)
+- All form data
+- Registration timestamp
 
