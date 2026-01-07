@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration Form</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Main container for the entire registration form -->
+    <div class="container">
+        <!-- Header section with title, icon and student counter -->
+        <header>
+            <!-- Graduation cap icon for visual appeal -->
+            <div class="header-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 3L1 9L12 15L21 10.09V17H23V9L12 3ZM5 13.18V17.18C5 19.45 8.05 21 12 21S19 19.45 19 17.18V13.18L12 17L5 13.18Z" fill="currentColor"/>
+                </svg>
+            </div>
+            
+            <!-- Main heading for the form -->
+            <h1>Student Registration</h1>
+            
+            <!-- Dynamic counter showing number of registered students -->
+            <div class="registration-counter">
+                <span id="studentCount">0</span> students registered
+            </div>
+        </header>
+
+        <!-- Main registration form with all input fields -->
+        <form id="studentForm" class="registration-form">
+            <!-- First Name field - Required -->
+            <div class="form-group">
+                <label for="firstName">First Name *</label>
+                <input type="text" id="firstName" name="firstName" required>
+            </div>
+
+            <!-- Middle Name field - Optional -->
+            <div class="form-group">
+                <label for="middleName">Middle Name</label>
+                <input type="text" id="middleName" name="middleName">
+            </div>
+
+            <!-- Last Name field - Required -->
+            <div class="form-group">
+                <label for="lastName">Last Name *</label>
+                <input type="text" id="lastName" name="lastName" required>
+            </div>
+
+            <!-- Date of Birth field - Required, validates minimum age of 15 -->
+            <div class="form-group">
+                <label for="dateOfBirth">Date of Birth *</label>
+                <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+            </div>
+
+            <!-- Phone Number field - Required, validates 10-digit format and realistic patterns -->
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number *</label>
+                <input type="tel" id="phoneNumber" name="phoneNumber" required pattern="[0-9]{10}">
+            </div>
+
+            <!-- Course selection dropdown - Required -->
+            <div class="form-group">
+                <label for="desiredCourse">Desired Course *</label>
+                <select id="desiredCourse" name="desiredCourse" required>
+                    <option value="">Select a course</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="Physics">Physics</option>
+                    <option value="Chemistry">Chemistry</option>
+                    <option value="Biology">Biology</option>
+                    <option value="English Literature">English Literature</option>
+                    <option value="History">History</option>
+                    <option value="Economics">Economics</option>
+                </select>
+            </div>
+
+            <!-- Submit button to register the student -->
+            <button type="submit" class="submit-btn">Register Student</button>
+        </form>
+
+        <!-- Legacy success message (kept for backward compatibility) -->
+        <div id="successMessage" class="success-message hidden">
+            Student registered successfully!
+        </div>
+    </div>
+
+    <!-- Success popup modal that appears after successful registration -->
+    <div id="successPopup" class="popup-overlay hidden">
+        <div class="popup-content">
+            <!-- Success checkmark icon -->
+            <div class="popup-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" fill="#28a745"/>
+                </svg>
+            </div>
+            <!-- Success message content -->
+            <h3>Success!</h3>
+            <p>The student has been successfully registered</p>
+        </div>
+    </div>
+
+    <!-- JavaScript file for form functionality -->
+    <script src="script.js"></script>
+</body>
+</html>
