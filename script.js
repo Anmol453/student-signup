@@ -192,7 +192,6 @@ class StudentRegistration {
               /^(\d)(\d)(?:\1\2){4}$/,     // Alternating digits
               /^9999999999$/,              // Common placeholder
               /^1231231234$/,              // Repeating blocks
-              /^[0-5]\d{9}$/               // Invalid Indian mobile start
   
         ];
         
