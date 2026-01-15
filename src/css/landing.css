@@ -41,7 +41,7 @@ body {
 }
 
 .register-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     color: white;
     border: none;
     padding: 14px 28px;
@@ -53,12 +53,12 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
 }
 
 .register-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
 }
 
 .register-btn:active {
@@ -72,8 +72,8 @@ body {
 }
 
 .spinner {
-    border: 5px solid rgba(102, 126, 234, 0.1);
-    border-top: 5px solid #667eea;
+    border: 5px solid rgba(16, 185, 129, 0.1);
+    border-top: 5px solid #10b981;
     border-radius: 50%;
     width: 60px;
     height: 60px;
@@ -149,7 +149,7 @@ body {
 }
 
 .retry-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     color: white;
     border: none;
     padding: 14px 36px;
@@ -158,12 +158,12 @@ body {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
 }
 
 .retry-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
 }
 
 /* Students Grid */
@@ -193,7 +193,7 @@ body {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(90deg, #10b981 0%, #059669 100%);
     transform: scaleX(0);
     transition: transform 0.3s ease;
 }
@@ -204,7 +204,7 @@ body {
 
 .student-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 15px 40px rgba(16, 185, 129, 0.3);
 }
 
 .card-header {
@@ -224,7 +224,7 @@ body {
     position: absolute;
     inset: -3px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     z-index: -1;
 }
 
@@ -275,7 +275,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #667eea;
+    color: #10b981;
     flex-shrink: 0;
 }
 
