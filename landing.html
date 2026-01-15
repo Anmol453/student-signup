@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Directory - Registered Students</title>
+    <link rel="stylesheet" href="src/css/landing.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>Student Directory</h1>
+                <button id="registerBtn" class="register-btn">+ Register New Student</button>
+            </div>
+        </header>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="loading-state">
+            <div class="spinner"></div>
+            <p>Loading students...</p>
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <div class="empty-icon">📚</div>
+            <h2>No Students Registered Yet</h2>
+            <p>Click "Register New Student" to add your first student</p>
+        </div>
+
+        <!-- Students Grid -->
+        <div id="studentsGrid" class="students-grid" style="display: none;">
+            <!-- Student cards will be dynamically inserted here -->
+        </div>
+
+        <!-- Error State -->
+        <div id="errorState" class="error-state" style="display: none;">
+            <div class="error-icon">⚠️</div>
+            <h2>Failed to Load Students</h2>
+            <p id="errorMessage">Please check your connection and try again</p>
+            <button id="retryBtn" class="retry-btn">Retry</button>
+        </div>
+    </div>
+
+    <script type="module" src="src/js/landing.js"></script>
+</body>
+</html>
