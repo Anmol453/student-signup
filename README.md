@@ -43,10 +43,7 @@ npm run dev
 ### 4. Start Frontend
 
 ```bash
-# From signup-form directory
-python -m http.server 8000
-# OR
-npx http-server
+Right click on the landing.html file on Open with the Live Server to access the frontend
 ```
 
 ### 5. Open Application
