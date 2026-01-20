@@ -59,9 +59,9 @@ router.get('/search/:term', async (req, res) => {
         
         const [rows] = await pool.query(
             `SELECT * FROM students 
-             WHERE first_name LIKE ? 
-             OR middle_name LIKE ? 
-             OR last_name LIKE ?
+             WHERE full_name LIKE ? 
+             OR company LIKE ? 
+             OR email LIKE ?
              ORDER BY registration_date DESC`,
             [searchTerm, searchTerm, searchTerm]
         );
@@ -118,21 +118,61 @@ router.post('/', async (req, res) => {
     try {
         const {
             id,
-            firstName,
-            middleName,
-            lastName,
-            dateOfBirth,
+            fullName,
+            company,
             phoneNumber,
-            desiredCourse,
+            alternatePhone,
+            email,
             avatarData,
             registrationDate
         } = req.body;
         
-        if (!id || !firstName || !lastName || !dateOfBirth || !phoneNumber || !desiredCourse) {
+        if (!id || !fullName || !company || !phoneNumber || !email) {
             return res.status(400).json({
                 success: false,
                 error: 'Missing required fields'
             });
+        }
+        
+        // Check if email already exists
+        const [emailCheck] = await pool.query(
+            'SELECT id FROM students WHERE email = ?',
+            [email]
+        );
+        
+        if (emailCheck.length > 0) {
+            return res.status(409).json({
+                success: false,
+                error: 'Email already exists. Please use a different email address.'
+            });
+        }
+        
+        // Check if phone number already exists
+        const [phoneCheck] = await pool.query(
+            'SELECT id FROM students WHERE phone_number = ? OR alternate_phone = ?',
+            [phoneNumber, phoneNumber]
+        );
+        
+        if (phoneCheck.length > 0) {
+            return res.status(409).json({
+                success: false,
+                error: 'Phone number already exists. Please use a different phone number.'
+            });
+        }
+        
+        // Check if alternate phone already exists (if provided)
+        if (alternatePhone && alternatePhone !== '-') {
+            const [altPhoneCheck] = await pool.query(
+                'SELECT id FROM students WHERE phone_number = ? OR alternate_phone = ?',
+                [alternatePhone, alternatePhone]
+            );
+            
+            if (altPhoneCheck.length > 0) {
+                return res.status(409).json({
+                    success: false,
+                    error: 'Alternate phone number already exists. Please use a different phone number.'
+                });
+            }
         }
         
         const mysqlRegistrationDate = registrationDate 
@@ -151,9 +191,9 @@ router.post('/', async (req, res) => {
         
         await pool.query(
             `INSERT INTO students 
-             (id, first_name, middle_name, last_name, date_of_birth, phone_number, desired_course, avatar_data, registration_date) 
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            [id, firstName, middleName || null, lastName, dateOfBirth, phoneNumber, desiredCourse, avatarBuffer, mysqlRegistrationDate]
+             (id, full_name, company, phone_number, alternate_phone, email, avatar_data, registration_date) 
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+            [id, fullName, company, phoneNumber, alternatePhone || null, email, avatarBuffer, mysqlRegistrationDate]
         );
         
         const [rows] = await pool.query('SELECT * FROM students WHERE id = ?', [id]);

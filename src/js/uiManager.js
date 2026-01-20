@@ -17,6 +17,7 @@ export class UIManager {
             studentCount: document.getElementById('studentCount'),
             successPopup: document.getElementById('successPopup'),
             errorPopup: document.getElementById('errorPopup'),
+            errorTitle: document.getElementById('errorTitle'),
             errorMessage: document.getElementById('errorMessage'),
             errorOkButton: document.getElementById('errorOkButton'),
             
@@ -82,8 +83,11 @@ export class UIManager {
     /**
      * Show error popup
      */
-    showErrorPopup(message) {
+    showErrorPopup(message, title = 'Registration Error') {
         if (this.elements.errorPopup && this.elements.errorMessage) {
+            if (this.elements.errorTitle) {
+                this.elements.errorTitle.textContent = title;
+            }
             this.elements.errorMessage.textContent = message;
             this.elements.errorPopup.classList.remove('hidden');
         }
@@ -95,6 +99,26 @@ export class UIManager {
     hideErrorPopup() {
         if (this.elements.errorPopup) {
             this.elements.errorPopup.classList.add('hidden');
+        }
+    }
+
+    /**
+     * Show cancel confirmation popup
+     */
+    showCancelPopup() {
+        const cancelPopup = document.getElementById('cancelPopup');
+        if (cancelPopup) {
+            cancelPopup.classList.remove('hidden');
+        }
+    }
+
+    /**
+     * Hide cancel confirmation popup
+     */
+    hideCancelPopup() {
+        const cancelPopup = document.getElementById('cancelPopup');
+        if (cancelPopup) {
+            cancelPopup.classList.add('hidden');
         }
     }
 

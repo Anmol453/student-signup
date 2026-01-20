@@ -41,7 +41,7 @@
             <!-- Avatar Upload Section -->
             <div class="form-group">
                 <label for="avatarUpload">Upload Photo *</label>
-                <p class="avatar-description">Upload a clear photo of your face. An AI avatar will be generated based on your appearance.</p>
+                <p class="avatar-description">Upload a clear photo of your face. An AI avatar will be generated.</p>
                 
                 <div class="avatar-upload-container">
                     <input type="file" id="avatarUpload" name="avatarUpload" accept="image/*" required style="display: none;">
@@ -64,57 +64,41 @@
                 </div>
             </div>
 
-            <!-- First Name field - Required -->
+            <!-- Full Name field -->
             <div class="form-group">
-                <label for="firstName">First Name *</label>
-                <input type="text" id="firstName" name="firstName" required>
+                <label for="fullName">Full Name *</label>
+                <input type="text" id="fullName" name="fullName" required placeholder="e.g. Aron Giles">
             </div>
 
-            <!-- Middle Name field - Optional -->
+            <!-- Company field -->
             <div class="form-group">
-                <label for="middleName">Middle Name</label>
-                <input type="text" id="middleName" name="middleName">
+                <label for="company">Company *</label>
+                <input type="text" id="company" name="company" required placeholder="e.g. Birdhouse Construction pvt ltd">
             </div>
 
-            <!-- Last Name field - Required -->
-            <div class="form-group">
-                <label for="lastName">Last Name *</label>
-                <input type="text" id="lastName" name="lastName" required>
-            </div>
-
-            <!-- Date of Birth field - Required, validates minimum age of 15 -->
-            <div class="form-group">
-                <label for="dateOfBirth">Date of Birth *</label>
-                <input type="date" id="dateOfBirth" name="dateOfBirth" required>
-            </div>
-
-            <!-- Phone Number field - Required, validates 10-digit format and realistic patterns -->
+            <!-- Phone Number field -->
             <div class="form-group">
                 <label for="phoneNumber">Phone Number *</label>
-                <input type="tel" id="phoneNumber" name="phoneNumber" required pattern="[0-9]{10}">
+                <input type="tel" id="phoneNumber" name="phoneNumber" required pattern="[0-9]{10}" placeholder="e.g. 4302032033">
             </div>
 
-            <!-- Course selection dropdown - Required -->
+            <!-- Alternate Phone field -->
             <div class="form-group">
-                <label for="desiredCourse">Desired Course *</label>
-                <select id="desiredCourse" name="desiredCourse" required>
-                    <option value="">Select a course</option>
-                    <option value="Computer Science">Computer Science</option>
-                    <option value="Mathematics">Mathematics</option>
-                    <option value="Physics">Physics</option>
-                    <option value="Chemistry">Chemistry</option>
-                    <option value="Biology">Biology</option>
-                    <option value="English Literature">English Literature</option>
-                    <option value="History">History</option>
-                    <option value="Economics">Economics</option>
-                </select>
+                <label for="alternatePhone">Alternate Phone</label>
+                <input type="tel" id="alternatePhone" name="alternatePhone" pattern="[0-9]{10}" placeholder="e.g. 4102012011">
             </div>
 
-            <!-- Submit button to register the student -->
+            <!-- Email field -->
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" required placeholder="e.g. aron.smith@gmail.com">
+            </div>
+
+            <!-- Submit button -->
             <button type="submit" class="submit-btn">Register Student</button>
         </form>
 
-        <!-- Legacy success message (kept for backward compatibility) -->
+        <!-- Success message -->
         <div id="successMessage" class="success-message hidden">
             Student registered successfully!
         </div>

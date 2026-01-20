@@ -17,18 +17,19 @@ export class FormValidator {
     validate() {
         // Check avatar validation first
         if (!this.avatarHandler.getValidationState().isValid) {
-            this.uiManager.showAvatarError('Please upload a valid photo with a human face.');
+            this.uiManager.showAvatarError('Please upload a valid photo with a clear human face. Ensure the image shows only one person.');
             return false;
         }
 
-        const requiredFields = ['firstName', 'lastName', 'dateOfBirth', 'phoneNumber', 'desiredCourse'];
+        const requiredFields = ['fullName', 'company', 'phoneNumber', 'email'];
         let isValid = true;
 
         // Validate each required field
         requiredFields.forEach(fieldName => {
             const field = document.getElementById(fieldName);
             if (!field.value.trim()) {
-                this.uiManager.showFieldError(field, 'This field is required');
+                let fieldLabel = field.previousElementSibling?.textContent || fieldName;
+                this.uiManager.showFieldError(field, `${fieldLabel} is required and cannot be empty`);
                 isValid = false;
             } else {
                 this.uiManager.clearFieldError(field);
@@ -38,27 +39,41 @@ export class FormValidator {
         // Phone number validation
         const phoneField = document.getElementById('phoneNumber');
         if (phoneField.value && !Validators.isValidPhoneNumber(phoneField.value)) {
-            this.uiManager.showFieldError(phoneField, 'Please enter a valid phone number');
+            const cleanPhone = phoneField.value.replace(/\D/g, '');
+            if (cleanPhone.length !== 10) {
+                this.uiManager.showFieldError(phoneField, `Phone number must be exactly 10 digits. You entered ${cleanPhone.length} digits. Format: 1234567890`);
+            } else {
+                this.uiManager.showFieldError(phoneField, 'Invalid phone number pattern. Please enter a valid 10-digit phone number (e.g., 4302032033)');
+            }
             isValid = false;
         }
 
-        // Date of birth validation
-        const dateField = document.getElementById('dateOfBirth');
-        if (dateField.value) {
-            // Parse date string correctly (YYYY-MM-DD format)
-            const [year, month, day] = dateField.value.split('-').map(Number);
-            const birthDate = new Date(year, month - 1, day);
-            const age = Validators.calculateAge(birthDate);
-            
-            if (!Validators.isValidDateOfBirth(dateField.value)) {
-                if (age < 10) {
-                    this.uiManager.showErrorPopup('Student must be at least 10 years old to register for courses.');
-                    this.uiManager.showFieldError(dateField, 'Student must be at least 10 years old');
-                } else {
-                    this.uiManager.showFieldError(dateField, 'Please enter a valid date of birth');
-                }
-                isValid = false;
+        // Alternate phone validation (optional field)
+        const altPhoneField = document.getElementById('alternatePhone');
+        if (altPhoneField.value && !Validators.isValidPhoneNumber(altPhoneField.value)) {
+            const cleanPhone = altPhoneField.value.replace(/\D/g, '');
+            if (cleanPhone.length !== 10) {
+                this.uiManager.showFieldError(altPhoneField, `Alternate phone must be exactly 10 digits. You entered ${cleanPhone.length} digits. Format: 1234567890`);
+            } else {
+                this.uiManager.showFieldError(altPhoneField, 'Invalid alternate phone pattern. Please enter a valid 10-digit phone number (e.g., 4102012011)');
             }
+            isValid = false;
+        }
+
+        // Email validation
+        const emailField = document.getElementById('email');
+        if (emailField.value && !Validators.isValidEmail(emailField.value)) {
+            const email = emailField.value;
+            if (!email.includes('@')) {
+                this.uiManager.showFieldError(emailField, 'Email must contain @ symbol. Format: username@domain.com');
+            } else if (!email.includes('.')) {
+                this.uiManager.showFieldError(emailField, 'Email must contain a domain extension. Format: username@domain.com');
+            } else if (email.indexOf('@') > email.lastIndexOf('.')) {
+                this.uiManager.showFieldError(emailField, 'Domain must come after @ symbol. Format: username@domain.com');
+            } else {
+                this.uiManager.showFieldError(emailField, 'Invalid email format. Please use format: username@domain.com (e.g., aron.smith@gmail.com)');
+            }
+            isValid = false;
         }
 
         return isValid;
@@ -67,8 +82,8 @@ export class FormValidator {
     /**
      * Real-time phone number validation
      */
-    validatePhoneNumber() {
-        const phoneInput = document.getElementById('phoneNumber');
+    validatePhoneNumber(fieldId) {
+        const phoneInput = document.getElementById(fieldId);
         const phoneValue = phoneInput.value.replace(/\D/g, '');
         
         if (phoneValue.length > 10) {
@@ -76,50 +91,36 @@ export class FormValidator {
         }
         
         if (phoneInput.value && !Validators.isValidPhoneNumber(phoneInput.value)) {
-            this.uiManager.showFieldError(phoneInput, 'Please enter a valid phone number');
+            const cleanPhone = phoneInput.value.replace(/\D/g, '');
+            const fieldLabel = fieldId === 'alternatePhone' ? 'Alternate phone' : 'Phone number';
+            
+            if (cleanPhone.length < 10) {
+                this.uiManager.showFieldError(phoneInput, `${fieldLabel} must be 10 digits. Currently ${cleanPhone.length} digits. Format: 1234567890`);
+            } else if (cleanPhone.length === 10) {
+                this.uiManager.showFieldError(phoneInput, `Invalid ${fieldLabel.toLowerCase()} pattern. Avoid repeated digits. Format: 4302032033`);
+            }
         } else {
             this.uiManager.clearFieldError(phoneInput);
         }
     }
 
     /**
-     * Real-time date of birth validation
+     * Real-time email validation
      */
-    validateDateOfBirth() {
-        const dateInput = document.getElementById('dateOfBirth');
+    validateEmail() {
+        const emailInput = document.getElementById('email');
         
-        if (dateInput.value) {
-            // Parse date string correctly (YYYY-MM-DD format)
-            const [year, month, day] = dateInput.value.split('-').map(Number);
-            const birthDate = new Date(year, month - 1, day);
-            const age = Validators.calculateAge(birthDate);
-            
-            if (!Validators.isValidDateOfBirth(dateInput.value)) {
-                if (age < 10) {
-                    this.uiManager.showFieldError(dateInput, 'Student must be at least 10 years old');
-                } else {
-                    this.uiManager.showFieldError(dateInput, 'Please enter a valid date of birth');
-                }
+        if (emailInput.value && !Validators.isValidEmail(emailInput.value)) {
+            const email = emailInput.value;
+            if (!email.includes('@')) {
+                this.uiManager.showFieldError(emailInput, 'Email must contain @ symbol. Format: username@domain.com');
+            } else if (!email.includes('.')) {
+                this.uiManager.showFieldError(emailInput, 'Email must have domain extension. Format: username@domain.com');
             } else {
-                this.uiManager.clearFieldError(dateInput);
+                this.uiManager.showFieldError(emailInput, 'Invalid email format. Use: username@domain.com (e.g., aron.smith@gmail.com)');
             }
-        }
-    }
-
-    /**
-     * Auto-capitalize name field
-     */
-    capitalizeNameField(event) {
-        const field = event.target;
-        const cursorPosition = field.selectionStart;
-        const originalValue = field.value;
-        
-        const capitalizedValue = Validators.capitalizeProperName(originalValue);
-        
-        if (originalValue !== capitalizedValue) {
-            field.value = capitalizedValue;
-            const newCursorPosition = Math.min(cursorPosition, capitalizedValue.length);
-            field.setSelectionRange(newCursorPosition, newCursorPosition);
+        } else {
+            this.uiManager.clearFieldError(emailInput);
         }
     }
 }

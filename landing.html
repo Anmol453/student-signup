@@ -29,9 +29,31 @@
             <p>Click "Register New Student" to add your first student</p>
         </div>
 
-        <!-- Students Grid -->
-        <div id="studentsGrid" class="students-grid" style="display: none;">
-            <!-- Student cards will be dynamically inserted here -->
+        <!-- Students Table -->
+        <div id="studentsTable" class="students-table-container" style="display: none;">
+            <table class="students-table">
+                <colgroup>
+                    <col style="width: 15%;">
+                    <col style="width: 15%;">
+                    <col style="width: 15%;">
+                    <col style="width: 15%;">
+                    <col style="width: 25%;">
+                    <col style="width: 15%;">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Company</th>
+                        <th>Phone Number</th>
+                        <th>Alternate Phone</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="studentsTableBody">
+                    <!-- Student rows will be dynamically inserted here -->
+                </tbody>
+            </table>
         </div>
 
         <!-- Error State -->

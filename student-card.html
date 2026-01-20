@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Card</title>
+    <link rel="stylesheet" href="src/css/student-card.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Back Button -->
+        <div class="back-button-container">
+            <a href="landing.html" class="back-button">
+                <span class="back-arrow">←</span>
+                Back to Student Directory
+            </a>
+        </div>
+
+        <!-- Student Card -->
+        <div class="student-card-page">
+            <div class="student-card-large">
+                <div class="card-layout">
+                    <div class="avatar-section">
+                        <img id="studentAvatar" src="" alt="" class="avatar">
+                        <div class="avatar-indicators">
+                            <div class="indicator">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/>
+                                </svg>
+                            </div>
+                            <div class="indicator active">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/>
+                                </svg>
+                            </div>
+                            <div class="indicator">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-section">
+                        <h2 id="studentName" class="student-name"></h2>
+                        
+                        <div class="info-item">
+                            <span class="info-emoji">🏢</span>
+                            <span id="studentCompany" class="info-text"></span>
+                        </div>
+                        
+                        <div class="info-item phone-row">
+                            <span class="info-emoji">📞</span>
+                            <span id="studentPhone" class="info-text phone-number"></span>
+                            <span id="alternatePhoneSection"></span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-emoji">📧</span>
+                            <span id="studentEmail" class="info-text"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="src/js/student-card.js"></script>
+</body>
+</html>

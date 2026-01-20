@@ -98,9 +98,9 @@ export class StudentRepository {
             // Fallback to local search
             const term = searchTerm.toLowerCase();
             return this.students.filter(student => 
-                student.first_name.toLowerCase().includes(term) ||
-                student.last_name.toLowerCase().includes(term) ||
-                (student.middle_name && student.middle_name.toLowerCase().includes(term))
+                student.full_name.toLowerCase().includes(term) ||
+                student.company.toLowerCase().includes(term) ||
+                student.email.toLowerCase().includes(term)
             );
         }
     }
@@ -120,12 +120,11 @@ export class StudentRepository {
     static createStudentData(formData, avatarData) {
         return {
             id: this.generateId(),
-            firstName: formData.firstName,
-            middleName: formData.middleName,
-            lastName: formData.lastName,
-            dateOfBirth: formData.dateOfBirth,
+            fullName: formData.fullName,
+            company: formData.company,
             phoneNumber: formData.phoneNumber,
-            desiredCourse: formData.desiredCourse,
+            alternatePhone: formData.alternatePhone,
+            email: formData.email,
             avatarData: avatarData,
             registrationDate: new Date().toISOString()
         };

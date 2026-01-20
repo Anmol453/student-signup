@@ -31,6 +31,14 @@ export class StudentRegistrationApp {
             this.handleFormSubmission();
         });
 
+        // Cancel button
+        const cancelBtn = document.getElementById('cancelBtn');
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', () => {
+                this.handleCancelForm();
+            });
+        }
+
         // Avatar upload
         this.uiManager.elements.uploadBtn.addEventListener('click', () => {
             this.uiManager.elements.avatarUpload.click();
@@ -44,31 +52,42 @@ export class StudentRegistrationApp {
         // Phone number validation
         const phoneInput = document.getElementById('phoneNumber');
         phoneInput.addEventListener('input', () => {
-            this.formValidator.validatePhoneNumber();
+            this.formValidator.validatePhoneNumber('phoneNumber');
         });
 
-        // Date of birth validation
-        const dateInput = document.getElementById('dateOfBirth');
-        dateInput.addEventListener('change', () => {
-            this.formValidator.validateDateOfBirth();
+        // Alternate phone validation
+        const altPhoneInput = document.getElementById('alternatePhone');
+        altPhoneInput.addEventListener('input', () => {
+            this.formValidator.validatePhoneNumber('alternatePhone');
         });
 
-        // Name field capitalization
-        const nameFields = ['firstName', 'middleName', 'lastName'];
-        nameFields.forEach(fieldId => {
-            const field = document.getElementById(fieldId);
-            field.addEventListener('input', (event) => {
-                this.formValidator.capitalizeNameField(event);
-            });
-            field.addEventListener('blur', (event) => {
-                this.formValidator.capitalizeNameField(event);
-            });
+        // Email validation
+        const emailInput = document.getElementById('email');
+        emailInput.addEventListener('blur', () => {
+            this.formValidator.validateEmail();
         });
 
         // Error popup OK button
         if (this.uiManager.elements.errorOkButton) {
             this.uiManager.elements.errorOkButton.addEventListener('click', () => {
                 this.uiManager.hideErrorPopup();
+            });
+        }
+
+        // Cancel popup buttons
+        const cancelYesButton = document.getElementById('cancelYesButton');
+        const cancelNoButton = document.getElementById('cancelNoButton');
+        
+        if (cancelYesButton) {
+            cancelYesButton.addEventListener('click', () => {
+                this.uiManager.hideCancelPopup();
+                this.resetForm();
+            });
+        }
+        
+        if (cancelNoButton) {
+            cancelNoButton.addEventListener('click', () => {
+                this.uiManager.hideCancelPopup();
             });
         }
     }
@@ -105,8 +124,17 @@ export class StudentRegistrationApp {
         } catch (error) {
             console.error('Registration error:', error);
             this.uiManager.hideSubmitLoading();
-            this.uiManager.showErrorPopup('Failed to register student. Please try again.');
+            // Display the actual error message from the server
+            const errorMessage = error.message || 'Failed to register student. Please try again.';
+            this.uiManager.showErrorPopup(errorMessage);
         }
+    }
+
+    /**
+     * Handle cancel form - clear all entries
+     */
+    handleCancelForm() {
+        this.uiManager.showCancelPopup();
     }
 
     /**
@@ -114,12 +142,11 @@ export class StudentRegistrationApp {
      */
     collectFormData() {
         return {
-            firstName: document.getElementById('firstName').value.trim(),
-            middleName: document.getElementById('middleName').value.trim(),
-            lastName: document.getElementById('lastName').value.trim(),
-            dateOfBirth: document.getElementById('dateOfBirth').value,
+            fullName: document.getElementById('fullName').value.trim(),
+            company: document.getElementById('company').value.trim(),
             phoneNumber: document.getElementById('phoneNumber').value.trim(),
-            desiredCourse: document.getElementById('desiredCourse').value
+            alternatePhone: document.getElementById('alternatePhone').value.trim(),
+            email: document.getElementById('email').value.trim()
         };
     }
 

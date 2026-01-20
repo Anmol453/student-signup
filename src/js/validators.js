@@ -44,39 +44,11 @@ export class Validators {
     }
 
     /**
-     * Validate date of birth for age requirements
+     * Validate email address
      */
-    static isValidDateOfBirth(dateOfBirth) {
-        // Parse date string (YYYY-MM-DD format from date input)
-        const [year, month, day] = dateOfBirth.split('-').map(Number);
-        const birthDate = new Date(year, month - 1, day); // month is 0-indexed
-        
-        const today = new Date();
-        const minDate = new Date(today.getFullYear() - 100, today.getMonth(), today.getDate());
-        
-        // Check if date is in valid range
-        if (birthDate > today || birthDate < minDate) {
-            return false;
-        }
-        
-        // Check if age is at least 10
-        const age = this.calculateAge(birthDate);
-        return age >= 10;
-    }
-
-    /**
-     * Calculate exact age from birth date
-     */
-    static calculateAge(birthDate) {
-        const today = new Date();
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const monthDiff = today.getMonth() - birthDate.getMonth();
-        
-        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
-        }
-        
-        return age;
+    static isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
     }
 
     /**
@@ -92,22 +64,5 @@ export class Validators {
         }
 
         return { valid: true };
-    }
-
-    /**
-     * Properly capitalize a name string
-     */
-    static capitalizeProperName(name) {
-        if (!name || typeof name !== 'string') {
-            return '';
-        }
-        
-        const trimmedName = name.trim().toLowerCase();
-        
-        if (trimmedName.length === 0) {
-            return '';
-        }
-        
-        return trimmedName.charAt(0).toUpperCase() + trimmedName.slice(1);
     }
 }
