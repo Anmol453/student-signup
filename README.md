@@ -164,9 +164,9 @@ The system ensures data integrity by validating:
 Each student has a dedicated card page showing:
 - Avatar with status indicators
 - Full name in large, readable font
-- Company with building emoji 🏢
-- Phone numbers with phone emojis 📞 ☎️
-- Email with email emoji 📧
+- Company 
+- Phone numbers 
+- Email 
 
 ### Navigation
 - Seamless navigation between directory and individual cards
@@ -223,13 +223,3 @@ mysql -u root -p -e "USE student_registration; SELECT * FROM students;"
 - Verify navigation from landing page (not direct URL access)
 - Check browser console for JavaScript errors
 
-## Browser Compatibility
-
-- Chrome/Edge: ✅ Fully supported
-- Firefox: ✅ Fully supported
-- Safari: ✅ Fully supported
-- Mobile browsers: ✅ Responsive design
-
-## License
-
-MIT License - Feel free to use and modify for your projects.
